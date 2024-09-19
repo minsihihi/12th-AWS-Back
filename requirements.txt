@@ -16,6 +16,7 @@ django-allauth==0.43.0
 pillow==10.3.0
 PyMySQL==1.1.0
 tzdata
+cryptography
 
 #mysqlclient==2.2.4
 

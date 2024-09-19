@@ -3,18 +3,18 @@ import os
 from datetime import timedelta
 import environ
 
-import pymysql  
+import pymysql
 pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))))
 
 env = environ.Env(
     DEBUG=(bool, False)
 )
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-
 
 
 # AUTH_USER_MODEL = 'accounts.User'
@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "corsheaders",
-    
+
     # django-rest-framework
     'rest_framework',
     'rest_framework.authtoken',
@@ -49,18 +49,18 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_auth.registration',
-    
+
     'rest_framework_simplejwt',
-    
+
     # 추가한 앱 이름
     'blog'
-   
-    
+
+
 ]
 SITE_ID = 1
 
 REST_FRAMEWORK = {
-		# 'DATETIME_FORMAT': '%y-%m-%d %H:%M',
+    # 'DATETIME_FORMAT': '%y-%m-%d %H:%M',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
@@ -73,12 +73,12 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,
     'AUTH_HEADER_TYPES': ('Bearer',),
     'TOKEN_USER_CLASS': 'accounts.User',
-    'BLACKLIST_AFTER_ROTATION': True, 
+    'BLACKLIST_AFTER_ROTATION': True,
     # 알아서
 }
 
 MIDDLEWARE = [
-	"corsheaders.middleware.CorsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -88,10 +88,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-# cors 
-CORS_ORIGIN_ALLOW_ALL=True
+# cors
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_METHODS = ( 
+CORS_ALLOW_METHODS = (
     'DELETE',
     'GET',
     'OPTIONS',
