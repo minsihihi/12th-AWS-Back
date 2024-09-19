@@ -4,27 +4,20 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /app
 WORKDIR /app
 
-# 필요한 패키지 설치
-RUN apk add --no-cache \
-    mariadb-connector-c-dev \
-    libpq \
-    libffi-dev \    
-    rust \
-    cargo \
-    jpeg-dev \
-    zlib-dev
+# dependencies for psycopg2-binary
+RUN apk add --no-cache mariadb-connector-c-dev
+RUN apk update && apk add python3 python3-dev mariadb-dev build-base && pip3 install mysqlclient==2.2.4 && apk del python3-dev mariadb-dev build-base
 
-# psycopg2-binary와 mysqlclient 설치
-RUN apk add --no-cache python3-dev build-base && \
-    pip install mysqlclient==2.2.4 && \
-    apk del python3-dev build-base
 
-# requirements.txt 복사 후 설치
+# By copying over requirements first, we make sure that Docker will cache
+# our installed requirements rather than reinstall them on every build
+RUN apk update && apk add libpq
+RUN apk update \
+    && apk add --virtual build-deps gcc python3-dev musl-dev \
+    && apk add --no-cache jpeg-dev zlib-dev mariadb-dev
 COPY requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt
-
-# 소스 코드 복사
-COPY . /app/
-
-# 불필요한 패키지 제거
 RUN apk del jpeg-dev zlib-dev
+
+# Now copy in our code, and run it
+COPY . /app/
